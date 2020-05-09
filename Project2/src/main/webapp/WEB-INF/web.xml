@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="editor.config" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee">
+    <display-name>Markdown Editor</display-name>
+    <servlet>
+        <servlet-name>Editor</servlet-name>
+        <servlet-class>Editor</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Editor</servlet-name>
+        <url-pattern>/post</url-pattern>
+    </servlet-mapping>
+</web-app>
