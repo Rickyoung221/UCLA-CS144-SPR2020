@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    Blog
+  </title>
+ 
+</head>
+
+<body>
+
+  <% for (let post of posts) { %>
+    <%- post.title %>
+    <%- post.body %>
+  <% } %>
+  <% if (nextid != null) { %>
+    <a href='/blog/<%= username %>?start=<%= nextid %>' id='next' class="button">Next</a>
+  <% } %>
+</body>
+
+</html>
