@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f09fb204-5e20-439e-a47d-999b243c71eb" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/CS144" />
+  </component>
+  <component name="ProjectId" id="1aqQTU725m9v7Mt65DvQAVwGjvW" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f09fb204-5e20-439e-a47d-999b243c71eb" name="Default Changelist" comment="" />
+      <created>1587460652288</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587460652288</updated>
+      <workItem from="1587460657239" duration="2574000" />
+      <workItem from="1587888148304" duration="15258000" />
+      <workItem from="1587931678358" duration="63000" />
+      <workItem from="1587931755624" duration="76000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="504" y="359" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1587896737866">
+      <screen x="0" y="23" width="1792" height="1048" />
+    </state>
+    <state x="504" y="359" key="#com.intellij.fileTypes.FileTypeChooser/-73.-1057.1920.1057/0.23.1792.1048@0.23.1792.1048" timestamp="1587888668710" />
+    <state x="504" y="359" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1792.1048@0.23.1792.1048" timestamp="1587896737866" />
+    <state x="449" y="144" key="SettingsEditor" timestamp="1587931800735">
+      <screen x="0" y="23" width="1792" height="1048" />
+    </state>
+    <state x="449" y="144" key="SettingsEditor/0.23.1792.1048@0.23.1792.1048" timestamp="1587931800735" />
+    <state x="657" y="412" key="com.intellij.ide.util.TipDialog" timestamp="1587931755945">
+      <screen x="0" y="23" width="1792" height="1048" />
+    </state>
+    <state x="657" y="430" key="com.intellij.ide.util.TipDialog/-73.-1057.1920.1009/0.23.1792.1097@0.23.1792.1097" timestamp="1587460658151" />
+    <state x="657" y="412" key="com.intellij.ide.util.TipDialog/-73.-1057.1920.1057/0.23.1792.1048@0.23.1792.1048" timestamp="1587888151166" />
+    <state x="657" y="412" key="com.intellij.ide.util.TipDialog/0.23.1792.1048@0.23.1792.1048" timestamp="1587931755945" />
+    <state x="613" y="235" key="search.everywhere.popup" timestamp="1587931784869">
+      <screen x="0" y="23" width="1792" height="1048" />
+    </state>
+    <state x="613" y="235" key="search.everywhere.popup/0.23.1792.1048@0.23.1792.1048" timestamp="1587931784869" />
+  </component>
+</project>
