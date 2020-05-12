@@ -8,7 +8,9 @@ Primary task of this project is
 http://oak.cs.ucla.edu/classes/cs144/project3/
 
 run `mongo < db.sh`
+
 run `npm install` to install modules need.
+
 run `npm start` and go to http://localhost:3000/
 
 # Development Environment
