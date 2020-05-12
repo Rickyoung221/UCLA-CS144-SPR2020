@@ -1,0 +1,119 @@
+#!/bin/bash
+TMP_DIR=/tmp/p1-grading/
+REQUIRED_FILES="actors.sql ComputeSHA.java"
+ZIP_FILE=$1
+
+function error_exit()
+{
+   echo "ERROR: $1" 1>&2
+   rm -rf ${TMP_DIR}
+   exit 1
+}
+
+function check_files()
+{
+    for FILE in $1; do
+        if [ ! -f ${FILE} ]; then
+            error_exit "Cannot find ${FILE} in $2"
+        fi
+    done
+}
+
+# retrieve a file from a URL (first argument) and check its SHA1 (second argument)
+# and save it in a directory (third argument) 
+function retrieve_file()
+{
+    URL=$1
+    SHA1=$2
+    RETRIEVE_DIR=$3
+    FILENAME=$(basename ${URL})
+    if [ -z ${RETRIEVE_DIR} ]; then
+        TESTFILE="${FILENAME}"
+    else
+        mkdir -p ${RETRIEVE_DIR}
+        TESTFILE="${RETRIEVE_DIR}/${FILENAME}"
+    fi
+
+    # check whether the file has already been retrieved and exists
+    if [ -f ${TESTFILE} ]; then
+        sha1sum ${TESTFILE} | grep ${SHA1} &> /dev/null
+        if [ $? -eq 0 ]; then
+            # the file already exists and its checksum matches
+            return
+        fi
+    fi
+
+    # the file does not exist. retrieve the file
+    curl -s ${URL} > ${TESTFILE}
+    if [ $? -ne 0 ]; then
+        error_exit "Failed to retrieve ${FILENAME} file"
+    fi
+    sha1sum ${TESTFILE} | grep ${SHA1} &> /dev/null
+    if [ $? -ne 0 ]; then
+        error_exit "Failed to retrieve ${FILENAME} file. Checksum mismatch."
+    fi
+}
+
+# usage
+if [ $# -ne 1 ]; then
+     echo "Usage: $0 project1.zip" 1>&2
+     exit
+fi
+
+if [ `whoami` != "cs144" ]; then
+     error_exit "You need to run this script within the container"
+fi
+
+# clean any existing files
+rm -rf ${TMP_DIR}
+mkdir ${TMP_DIR}
+
+# unzip the submission zip file 
+if [ ! -f ${ZIP_FILE} ]; then
+    error_exit "Cannot find $ZIP_FILE"
+fi
+unzip -q -d ${TMP_DIR} ${ZIP_FILE}
+if [ "$?" -ne "0" ]; then 
+    error_exit "Cannot unzip ${ZIP_FILE} to ${TMP_DIR}"
+fi
+
+# change directory to the grading folder
+cd ${TMP_DIR}
+
+# check the existence of the required files
+check_files "${REQUIRED_FILES}" "root folder of the zip file"
+
+# retrieve actors.csv file
+retrieve_file "http://oak.cs.ucla.edu/classes/cs144/project1/actors.csv" 54fede851b72c452eab0ec56d673e4c405a6e2ce "/tmp/retrieve-cache/"
+cp "/tmp/retrieve-cache/actors.csv" ${TMP_DIR}
+
+# run actors.sql script
+echo "drop table if exists Actors;" | mysql CS144
+echo "Running your actors.sql script..."
+mysql CS144 < actors.sql
+echo "drop table if exists Actors;" | mysql CS144
+echo "Finished running actors.sql" 
+echo
+
+# compile, exit if error
+echo "Compiling ComputeSHA.java..."
+javac ComputeSHA.java
+if [ "$?" -ne "0" ]; then
+        error_exit "Compilation of ComputeSHA.java failed"
+fi
+
+# test ComputeSHA.java, using test input files
+INPUT_FILE="${TMP_DIR}/test-input.txt"
+echo "A simple test input file to check ComputeSHA" > ${INPUT_FILE}
+RESULT1=`java ComputeSHA ${INPUT_FILE}`
+RESULT2=`sha1sum ${INPUT_FILE} | awk '{print $1}'`
+
+if [ "$RESULT1" != "$RESULT2" ]; then
+        error_exit "ComputeSHA computes an incorrect SHA value."
+fi
+
+# clean up
+rm -rf ${TMP_DIR}
+
+echo "SUCCESS!" 1>&2
+exit 0
