@@ -1,0 +1,149 @@
+#!/bin/bash
+GRADING_DIR=$HOME/grading
+TMP_DIR=/tmp/p5-grading/
+REQUIRED_FILES="read_tomcat.py write_tomcat.py mixed_tomcat.py read_node.py write_node.py mixed_node.py performance.json summary_tomcat.txt summary_node.txt topUsers.scala TEAM.txt"
+MAIN_CODE="topUsers.scala"
+JSON_FILE="performance.json"
+SUMMARY_FILES=("summary_tomcat.txt" "summary_node.txt")
+
+# usage
+if [ $# -ne 1 ]
+then
+     echo "Usage: $0 project5.zip" 1>&2
+     exit 1
+fi
+
+# make sure that the script runs on VM
+if [ `whoami` != "cs144" ]; then
+     echo "ERROR: You need to run this script within the container" 1>&2
+     exit 1
+fi
+
+ZIP_FILE=$1
+
+# clean any existing files
+rm -rf ${TMP_DIR}
+
+# create temporary directory used for grading
+mkdir ${TMP_DIR}
+
+# unzip the zip file
+if [ ! -f ${ZIP_FILE} ]; then
+    echo "ERROR: Cannot find $ZIP_FILE" 1>&2
+    rm -rf ${TMP_DIR}
+    exit 1
+fi
+unzip -q -d ${TMP_DIR} ${ZIP_FILE}
+if [ "$?" -ne "0" ]; then
+    echo "ERROR: Cannot unzip ${ZIP_FILE} to ${TMP_DIR}"
+    rm -rf ${TMP_DIR}
+    exit 1
+fi
+
+# change directory to the partc folder
+cd ${TMP_DIR}
+
+# check the existence of the required files
+for FILE in ${REQUIRED_FILES}
+do
+    if [ ! -f ${FILE} ]; then
+        echo "ERROR: Cannot find ${FILE} in the root folder of ${ZIP_FILE}" 1>&2
+        rm -rf ${TMP_DIR}
+        exit 1
+    fi
+done
+
+# Validate the performance.json
+echo "Validating your ${JSON_FILE}...."
+python -m json.tool < ${JSON_FILE} &> /dev/null
+if [ $? -eq 1 ]; then
+    echo "ERROR: ${JSON_FILE} is not in Json format. Check if you delete any character by mistake" 1>&2
+    rm -rf ${TMP_DIR}
+    exit 1
+fi
+
+PYTHON_SCRIPT="
+import sys, json;
+cases = json.load(sys.stdin)
+fields = [\"Number Of Users\", \"Total Number Of Req\", \"Total RPS\"]
+for case in cases:
+    for field in fields:
+        if not ((isinstance(case[field], int) or isinstance(case[field], float)) and case[field] > 0):
+            print \"Id:\", case[\"Id\"], \"has invalid field.\", field, \":\", case[field]
+            sys.exit()
+    percentile98 = case[\"Request Distribution\"][0][\"98%\"]
+    if not (isinstance(percentile98, int) and percentile98 > 0):
+        print \"Id:\", case[\"Id\"], \"has invalid field. Request Distribution[0].98% :\", percentile98
+        sys.exit()
+"
+
+result=`cat ${JSON_FILE} | python -c "${PYTHON_SCRIPT}"`
+if [ -n "${result}" ]; then
+    echo "ERROR: ${JSON_FILE} contains invalid numeric field. ${result}" 1>&2
+    rm -rf ${TMP_DIR}
+    exit 1
+fi
+
+# Validate the summary text files
+PYTHON_SCRIPT="
+import sys;
+distribution = False
+counter = 0
+for line in sys.stdin:
+    if \"Percentage of the requests completed within given times\" in line:
+        distribution = True
+    for http_method in [\"GET\", \"PUT\", \"POST\"]:
+        if distribution and http_method in line and \"login\" not in line:
+            counter += 1
+            data = line.split()
+            if (int(data[9]) >= 1000):
+                print \"98% of requests are not responsed within 1000ms!\"
+                sys.exit()
+if counter != 2:
+    print \"Wrong number of request type!\"
+"
+
+for i in ${!SUMMARY_FILES[@]}
+do
+    echo "Validating your ${SUMMARY_FILES[$i]}...."
+    result=`cat ${SUMMARY_FILES[$i]} | python -c "${PYTHON_SCRIPT}"`
+    if [ -n "${result}" ]; then
+        echo "ERROR: ${SUMMARY_FILES[$i]} is WRONG! ${result}" 1>&2
+        rm -rf ${TMP_DIR}
+        exit 1
+    fi
+done
+
+# create test twitter.edges file
+for i in {1..1010}
+do
+    echo "$i: 10,20,99" >> twitter.edges
+done
+
+# append System.exit(0) call at the end of the code to ensure exiting from the shell
+echo "" >> ${MAIN_CODE}
+echo "System.exit(0)" >> ${MAIN_CODE}
+
+# run the student code
+echo "Executing your Spark code....." 1>&2
+spark-shell -i ${MAIN_CODE}
+
+# check if the expected output directory and files have been generated
+if [ ! -d output ]; then
+    echo "ERROR: Output directory "output" was not created by your Spark code" 1>&2
+    rm -rf ${TMP_DIR}
+    exit 1
+fi
+if [ ! -f 'output/part-00000' ]; then
+    echo "ERROR: Cannot find the output file output/part-00000 after your code is run" 1>&2
+    rm -rf ${TMP_DIR}
+    exit 1
+fi
+cat output/part-????? 1>&2
+
+# clean up
+rm -rf ${TMP_DIR}
+
+echo
+echo "SUCCESS! We finished testing your zip file integrity." 1>&2
+exit 0
