@@ -1,0 +1,92 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
+
+.sidenav {
+  margin: 10px 20px;
+  overflow-x: hidden;
+}
+
+.sidenav a {
+  padding: 6px 8px;
+  text-decoration: none;
+  color: #111111;
+  display: block;
+  text-align: center;
+}
+
+.sidenav a:hover {
+  background-color: #cfd8dc;
+}
+
+.posts {
+  margin: 0 0 2em 0;
+  list-style-type: none;
+  padding: 0;
+  width: 15em;
+}
+.blog-post {
+  border-radius: 4px;
+  background-color: #eee;
+  overflow:hidden;
+}
+
+.post-time {
+  background-color: #1f5e7e;
+  color: #dddddd;
+}
+
+.post-title {
+  display: inline-block;
+}
+
+button {
+color: #fff !important;
+text-transform: uppercase;
+text-decoration: none;
+background: #ed3330;
+padding: 20px;
+border-radius: 5px;
+display: inline-block;
+border: none;
+transition: all 0.4s ease 0s;
+  height:
+}
+
+button:hover {
+background: #434343;
+letter-spacing: 1px;
+-webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+-moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+transition: all 0.4s ease 0s;
+}
+
+button:disabled {
+  background-color: #eee;
+  color: #ccc;
+  cursor: auto;
+}
+
+.list-container{
+   position:relative;
+   left: 0px;
+}
+
+ul li {
+  padding: 8px 16px;
+  border-bottom: 1px solid #ddd;
+  list-style-position: outside;
+  display: inline-block;
+}
+ul {
+  border-left: 5px solid red;
+  background-color: #f1f1f1;
+  height:auto;
+  padding: 10px 20px;
+
+}
+
+ul li:hover {
+  margin-left: 20px;
+  font-weight: 600;
+  color: #add8e6;
+}

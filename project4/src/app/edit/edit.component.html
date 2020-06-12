@@ -1,0 +1,22 @@
+
+  <div *ngIf="post">
+
+  <div class = "column edit">
+    <form>
+      <div class="form-text">
+	      <label for="title">Title</label> <br>
+	      <input class="form-control" type="text" onclick="this.select()" id="title" required [(ngModel)]="post.title" name="title" placeholder="Enter the title...." autofocus> <br>
+      </div>
+      <div class="form-text">
+	      <label for="Body">Body</label> <br>
+        <textarea class="form-control" id="body" required [(ngModel)]="post.body" name="body" placeholder="Enter the content...." style="height:400px"></textarea>
+      </div>
+    </form>
+    <p>Last Modified: {{post.modified| date:'MM/dd/yy, hh:mm:ss'}}</p>
+    <div class="btn-group btn-group-lg">
+      <button (click)="delete()">delete</button>
+      <button (click)="save()">save</button>
+      <button [routerLink]="['/preview/', post.postid]">preview</button>
+    </div>
+  </div>
+  </div>

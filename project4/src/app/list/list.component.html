@@ -1,0 +1,17 @@
+<div class="list-container" id="parent">
+
+  <div class = "column list" >
+  <h2> Posts List</h2>
+  <ul class = "posts" style="width:50%">
+
+  <li *ngFor="let post of posts; let i = index">
+    <div class="blog-post" (click) ="onSelect(i) ">
+      <div class="post-title"> Title: {{post.title}}  </div>
+      <div> Time: {{post.created | date:'(MM/dd/yy - hh:mm:ss)'}} </div>
+    </div>
+  </li><br>
+  </ul>
+<button (click)="newPost()">New Post</button>
+</div>
+
+</div>

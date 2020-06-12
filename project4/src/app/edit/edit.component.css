@@ -1,0 +1,79 @@
+label, p {
+  display: inline-block;
+  margin: .5em 0;
+  color: #607D8B;
+  font-weight: bold;
+  font-size: 15px;
+
+}
+
+input[type=text], select{
+  position:relative;
+  display: inline-block;
+  padding: 12px 20px;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+
+
+}
+
+textarea {
+  position:relative;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+
+
+}
+
+.btn-group {
+
+    padding: 12px 20px;
+    box-sizing: border-box;
+}
+
+.btn-group button {
+  border: none;
+  background: #404040;
+  color: #ffffff !important;
+  font-weight: 100;
+  font-size: 20px;
+  padding: 20px;
+  text-transform: uppercase;
+  width:33%;
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+}
+
+.btn-group button:hover {
+  color: #404040 !important;
+  font-weight: 900 !important;
+  letter-spacing: 3px;
+  background: none;
+  -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+  transition: all 0.3s ease 0s;
+}
+
+.btn-group button:disabled {
+  background-color: #eee;
+  color: #ccc;
+  cursor: auto;
+}
+
+
+
+.content {
+  max-width: 960px;
+  margin: auto;
+    border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 10px;
+
+
+}

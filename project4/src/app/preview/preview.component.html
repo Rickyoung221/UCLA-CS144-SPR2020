@@ -1,0 +1,12 @@
+<div class="preview-container">
+  <div *ngIf="post">
+<div class = "column preview">
+    <h2>Preview Post</h2>
+    <div [innerHTML]="this.title_preview"> </div>
+    <div [innerHTML]="this.body_preview"> </div>
+    <div>
+      <button type="submit" (click)="editPost()"> Edit Post </button>
+    </div>
+</div>
+  </div>
+</div>
