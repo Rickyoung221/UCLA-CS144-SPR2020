@@ -14,3 +14,20 @@ Blog Website project.
 
 
 Please do not copy any code, they should be just for view. ​:slightly_smiling_face:​
+
+---
+## Course Description
+Part 1: System Setup and Warm-up
+In this part, you will have to set up a provided “container” on your computer and interact with MySQL to populate data and query them. You will also have to implement a simple Java program to brush up on Java programming.
+
+Part 2: Markdown Editor on Tomcat
+In this part, you will need to implement a simple online markdown editor using MySQL and Tomcat.
+
+Part 3: Blogging Server Using MongoDB and NodeJS
+Now you will will have to implement a Blogging server using the MEAN stack. In this part, you write the server-side program that saves and publishes blog posts written by the markdown-editor client that will be built in Part 4. The server-side program will be developed using MongoDB, NodeJS, and Express.
+
+Part 4: Markdown Editor Using Angular
+In this part, you will use an advanced version of the markdown editor client using Angular. All entries saved by the editor will be stored in the server implemented as part of Part 3.
+
+Part 5: Performance and Scalability
+In the last part of our project, you will explore issues of performance and scalability of Web applications.
