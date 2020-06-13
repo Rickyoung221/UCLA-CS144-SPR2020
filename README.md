@@ -13,6 +13,6 @@ Blog Website project.
 | Final     |         |
 
 
-@copyright by Weikeng, Yueying.
+@copyright by Weikeng and Yueying.
 
 Please do not copy any code, they should be just for view. ​:slightly_smiling_face:​
