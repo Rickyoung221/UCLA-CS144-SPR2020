@@ -17,6 +17,22 @@ Please do not copy any code, they should be just for view. ​:slightly_smiling_
 
 ---
 ## Course Description
+### Project Overview
+Your project is to build an online Web site that allows users to post blog entries written in markdown. Over the quarter, your will need to implement the Web site twice, once using a more “traditional” stack based on MySQL and Apache Tomcat, and once more using a “modern” stack based on MongoDB, Node.js, Express, and Angular (a.k.a. MEAN stack). Through this project, you will get familiar with the following software tools:
+
+Docker
+MySQL
+Apache Tomcat
+MongoDB
+Node.js
+Express
+Angular
+Locust
+Apache Spark
+In addition to the above software tools, you will gain experience with Servlet programming in Java, and building Web applications using HTML, CSS, and Javascript.
+
+The project should be done either individually or by a team of two students.
+
 Part 1: System Setup and Warm-up
 In this part, you will have to set up a provided “container” on your computer and interact with MySQL to populate data and query them. You will also have to implement a simple Java program to brush up on Java programming.
 
