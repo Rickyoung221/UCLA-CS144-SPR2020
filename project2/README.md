@@ -14,20 +14,20 @@ Requesting http://localhost:8080/editor/post?action=open&username=user_XYRSAF&po
 
 Hoping you have a good time and stay healthy. 
 ----
-## Project notes for myself
-# Develop web app on container and MySQL.
+# Project notes for myself
+## Develop web app on container and MySQL.
 
-## Part A: Web app on Apache Tomcat
+### Part A: Web app on Apache Tomcat
 
 Before starting to code, first learn how we develop a Web application using Apache Tomcat by going over our tutorial:
 
 - [Developing a Web Application on Tomcat](http://oak.cs.ucla.edu/classes/cs144/tomcat/index.html).
 
-### Deploy web app
+#### Deploy web app
 
 place the .war file in `$CATALINA_BASE/webapps` in your container. After deploying. Tomcat has created the `cs144` subdirectory (from the `cs144.war` file that we just copied). For efficiency reasons, when a new application archive is installed, Tomcat by default extracts and “caches” all the files in the archive into the subdirectory of the same name. This way, it can avoid reading the large `.war` file repeatedly to handle HTTP requests and read only the necessary files in the subdirectory.
 
-### Mapping an HTTP request to an application
+#### Mapping an HTTP request to an application
 
 Since a Tomcat server may host multiple .war files, it uses the *URL* of an HTTP request to determine which Web application should handle it. For example, an HTTP GET request for the the cs144 application we just deployed at http://localhost:8888/cs144/p1 would look something like:
 
@@ -39,7 +39,7 @@ Since the *first URL path component* of this request is `cs144`, Tomcat determin
 
 This URL returns the above configuration page, but you may have noticed that there is no `p1` file! The reason why there is no file named `p1` i<u>s because the page is generated dynamically by a Java class in the WAR file.</u>
 
-### Structure of a WAR file
+#### Structure of a WAR file
 
 This is where the *deployment descriptor* file comes in, located at `WEB-INF/web.xml` in the WAR file. This XML file is processed by Tomcat automatically when your Web application is deployed and describes the important “mapping” information between a URL and the Java class files. Now open the `WEB-INF/web.xml` file. You will see the following content:
 
@@ -66,7 +66,7 @@ The important part is the <servlet> `` and `` <servlet-mapping> elements. The el
 
 <div style="page-break-after:always;"></div>
 
-### Creating Your First Web Application Archive
+#### Creating Your First Web Application Archive
 
 Now that we understand the basic structure of a WAR file, we will be creating a very simple WAR file, called `simple.war`, that just contains a static “hello, world” type HTML page and the basic `web.xml` file. Here is a step-by-step instruction on how you can create a .war file. Our “tomcat” container has necessary JDKs preinstalled, follow these instructions inside the container.
 
@@ -96,9 +96,9 @@ Now that we understand the basic structure of a WAR file, we will be creating a 
 
 
 
-### Adding a Java Servlet Class
+#### Adding a Java Servlet Class
 
-#### What is a Servlet?
+##### What is a Servlet?
 
 A Java servlet is a program that runs on a Web Application server (such as Apache Tomcat) and acts as a middle layer between a requests coming from a Web browser and databases or other applications running on the server. <u>Using a servlet, you can take input from users through HTML forms, perform complex data processing, and generate a Web page dynamically.</u>
 
@@ -108,7 +108,7 @@ More precisely, servlets perform the following tasks:
 2. Process the request and generate a response. Generating results may require retrieving data from a database and performing complex data-processing operations.
 3. Send the response to the client (browser). This response can be in a variety of formats, including text (HTML or XML), binary (GIF images), etc.
 
-### Life Cycle of Servlet
+#### Life Cycle of Servlet
 
 A Java servlet is a Java class (based on the Java Servlet specification) that is run by a Web application server. A servlet is created by extending the [`javax.servlet.http.HttpServlet`](https://tomcat.apache.org/tomcat-8.0-doc/servletapi/javax/servlet/http/HttpServlet.html) class in the `javax.servlet` and `javax.servlet.http` packages.
 
@@ -150,7 +150,7 @@ public void destroy() {
 }
 ```
 
-## Part B: Learn JDBC
+### Part B: Learn JDBC
 
 In order to access MySQL data from a Java program, use **JDBC (Java DataBase Connectivity) API**. Go over the following tutorial to learn how to use JDBC to access MySQL in a Java program.
 
@@ -158,7 +158,7 @@ In order to access MySQL data from a Java program, use **JDBC (Java DataBase Con
 
 Use the basic JDBC API to create tables, insert values, query tables, retrieve results, update tables, create prepared statements, perform transactions on a database system from a Java program.
 
-### Overview
+#### Overview
 
 Call-level interfaces such as JDBC are programming interfaces allowing e<u>xternal programs</u> to access SQL databases. They allow the execution of SQL commands within a general programming environment by providing library routines which interface with the database. In particular, Java-based JDBC has a rich collection of routines which make such an interface extremely simple and intuitive.
 
@@ -192,7 +192,7 @@ Here is an easy way of visualizing what happens in a call level interface: You a
 
 That’s it! The connection returned in the last step is an open connection which we will use to pass SQL statements to the database. In this code snippet, con is an open connection, and we will use it below.
 
-### Creating JDBC PreparedStatement
+#### Creating JDBC PreparedStatement
 
 It is often safer or more efficient to use a `PreparedStatement` object for sending SQL statements to the DBMS, especially when the SQL statement needs to include input from users. The main feature which distinguishes it from its superclass `Statement` is that 
 
@@ -233,8 +233,6 @@ Similarly, if our `PreparedStatement` was created with a SQL SELECT statement, n
 ```
 ResultSet rs = preparedStmt.executeQuery();
 ```
-
-### 
 
 ---
 
