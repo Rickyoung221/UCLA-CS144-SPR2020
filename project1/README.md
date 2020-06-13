@@ -1,142 +1,457 @@
-Project 1: Warm-Up and Basic Setup
-Overview
-Throughout this quarter, you will be gradually developing a blogging Web site, which can be considered as a simplified version of WordPress. The entire Web site will be built on the “MEAN stack” (MongoDB, Express, Angular, and Node.js) eventually, but the MEAN stack is hard to learn and appreciate unless you have some experience with a more “traditional” stack. In the first two projects, therefore, you will start development with a more “traditional” stack based on MySQL and Apache Tomcat. Hopefully this will give you enough experience to use the the MEAN stack in later projects.
+# Project note for myself
+Project Requirement: http://oak.cs.ucla.edu/classes/cs144/project1/index.html
 
-In Project 1, you are asked to perform the following tasks:
+# Project 1
 
-You will have to set up our project development environment on your machine, which is based on Docker.
-You will have to brush up with Unix Command-Line Interface (CLI).
-You will have to brush up with your MySQL knowledge.
-You will have to brush up with Java programming.
-Part A: Setup Your Development Environment
-Docker is a popular software development and deployment tool that implements container technology. It allows allows running multiple isolated OS environments on a single machine. As the first task of Project 1, you must go over the following tutorial and follow its step-by-step instruction:
+## Docker
 
-Docker Setup and Basic Use
-The page will guide you setting up the Docker App on your machine and teach the most important concepts and commands for using Docker.
+![docker-tutorial-image-2](/Users/rickyoung/Library/Mobile Documents/com~apple~CloudDocs/Class_Note/CS144 SPRING20/Project.assets/image2_0.png)
 
-The Docker image for Project 1 (and Project 2), “junghoo/cs144-tomcat”, has MySQL, Apache Tomcat, and Java JDK 7 installed.
+### Definition
 
-Part B: Unix Command-Line Interface (CLI)
-All of your project development should be done inside a Docker container that we provide, which is based on Linux operating system. For the most part, therefore, you will be using a Unix shell through a terminal app. If you are not familiar with Unix shell commands, read the Unix Tutorial for Beginners and learn the basic Unix commands.
+- Docker image
 
-In playing with basic Unix commands, you can use the “tomcat” container created from the “junghoo/cs144-tomcat” image in Part A. As we explained in the Docker Setup and Basic Use page, you can start the “tomcat” container using the docker start command:
+  A Docker image is like an OS installation package
 
+- Docker container
+
+  A Docker container is like an actual system that is setup using the image
+
+>  Just like you can set up multiple machines using one OS installation package, it is possible to create multiple containers using one Docker image.
+
+- *shared folder* and *port forwarding*
+- Docker Engine is a client-server application with these major components:
+  - The Docker daemon is a service that runs on your host operating system. When you type any docker command, it is interpreted by the demon and it takes necessary actions.
+  - A REST API to talk to the daemon and instruct it what to do.
+  - A command line interface (CLI) client (the docker command).
+
+```dockerfile
+$ docker run -it hello-world
+```
+
+### Basic concept
+
+:star: Docker performed the following sequence of operations.
+
+1. It first downloaded the Docker image named “hello-world” over the Internet from the *Docker Hub* and saved it locally. *Docker Hub* is the default location from which Docker images are downloaded.
+2. It then created a *Docker container* based on the downloaded image.
+3. Finally, it started running the container, displaying any output from the container on terminal.
+
+---
+
+Commands:
+
+The `docker image ls` command shows all Docker images that have been saved locally. In this example, we have the “hello-world” image that was downloaded from our earlier `docker run ...` command.
+
+```dockerfile
+$ docker image ls
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+hello-world         latest              fce289e99eb9        15 months ago       1.84kB
+```
+
+The `docker container ls -a` command shows **all Docker containers** that have been created. Whenever Docker creates a new container, it assigns a unique random name so that the user can refer to the container using the name in future commands.
+
+```docker
+$ docker container ls -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
+5a9e70c99436        hello-world         "/hello"            9 minutes ago       Exited (0) 9 minutes ago                        ecstatic_diffie
+6c5c3203bcd3        hello-world         "/hello"            12 minutes ago      Exited (0) 12 minutes ago 
+```
+
+If just want to see only the currently-running containers. just run `docker container ls` command without `-a` (`-a` means all)
+
+## Shared Folder and Port Forwarding
+
+In using Docker containers, there are two more important concepts that you will need to know: *shared folder* and *port forwarding*.
+
+To learn about these concepts, first, create a directory on your computer where you plan to do project development. In this tutorial, we will assume to use `/Users/cho/cs144` as such a directory.
+
+Then execute the following command after replacing `{your_shared_dir}` with your directory name (i.e., `/Users/cho/cs144/`):
+
+```
+$ docker run -it -v {your_shared_dir}:/home/cs144/shared -p 8888:8080 --name tomcat junghoo/cs144-tomcat 
+```
+
+This command will ask Docker to perform the following actions:
+
+1. *Image name*: From Docker Hub, download and save the image “junghoo/cs144-tomcat”.
+2. *Container name*: Create a container from the downloaded image and name it “tomcat” (the `--name tomcat` option).
+3. *Shared folder*: “Mount” the `{your_shared_dir}` (i.e., `/Users/cho/cs144/`) directory on your host machine at the `/home/cs144/shared` directory in the container Any file you place in the `/Users/cho/cs144` directory on your host machine will be available in the `/home/cs144/shared` directory of the container, and vice versa.
+4. *Port forwarding*: Forward any network request to port 8888 on the host machine to the port 8080 on the container (the `-p 8888:8080` option).
+5. *Interactive terminal*: Allocate a pseudo terminal in the container (`-t` option) and connect it to the interactive terminal window of the host (`-i` option).
+
+Run the container
+
+```
 $ docker start -i tomcat
-Your username inside the container is “cs144” with password “password”. There are a few important environment variables that have been set within the “junghoo/cs144-tomcat” container:
+```
 
-JAVA_HOME: The JAVA_HOME environment variable points to the JDK installation directory, which is /usr/lib/jvm/default-java in our container.
-CATALINA_HOME: This variable specifies the location of the Tomcat installation, which is /usr/share/tomcat8.
-CATALINA_BASE: This variable specifies the base directory of a Tomcat instance, which is /var/lib/tomcat8.
-HOME: This variable specifies the location of your home directory, which is /home/cs144.
-You can refer to the values of these variables in your shell, like $JAVA_HOME, $CATALINA_HOME, etc. For example, if you issue the following echo command inside the container
+tomcat is the container name
 
-$ echo $JAVA_HOME
-/usr/lib/jvm/default-java
-you will see the value of JAVA_HOME. To exit from the “tomcat” container, you just need to type exit:
+Quit:
 
-$ exit
-Part C: MySQL Warm-Up
-In this part, you get yourself familiar with the basic MySQL commands by creating and loading a table and issuing a few queries.
+```
+$ docker stop tomcat
+```
 
-First, download the actors.csv file to the current directory of the container. To download any file, you can use the wget command in the container like the following:
 
-$ wget http://oak.cs.ucla.edu/classes/cs144/project1/actors.csv
-Then, read our basic MySQL tutorial to learn how you can interact with MySQL and issue SQL commands. In particular, the tutorial provides a brief explanation on CREATE TABLE, LOAD DATA and SELECT commands, which will be important to finish this part of the project. If you need to brush up on SQL commands other than the ones explained in the tutorial, you may find the How Does This RDBMS Thing Work? section of SQL for Web Nerds helpful.
 
-As we explained in the MySQL tutorial, we have created the database “CS144” (note a database name is case sensitive) in the MySQL of our container. For your project work, use the MySQL user “cs144” (no password), which has full access to the “CS144” database. The MySQL user “root” with password “password” has full unrestricted access to everything and should be used only for special administrative operations, like creating new users and databases, etc.
 
-Now take the following steps to create, load, and query a table in MySQL:
 
-Create a table called “Actors” in the database “CS144”. The “Actors” table should have the following schema:
+## MySQl - Basic
 
+http://oak.cs.ucla.edu/classes/cs144/mysql/index.html
+
+### Starting MySQL
+
+```mysql
+$ mysql
+```
+
+### Choosing a Databases
+
+First select the database that will be using, by type `SHOW DATABASES`
+
+```mysql
+MariaDB [(none)]>  SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| CS144              |
+| information_schema |
++--------------------+
+2 rows in set (0.001 sec)
+```
+
+Here `information_schema` is a database that MySQL creates automatically and uses to maintain some internal statistics on datbases and tables.
+
+The other database, `CS144`, is what we created for the project (note database names are *case-sensitive* in MySQL). Select the `CS144` database for the rest of this tutorial by issuing the command
+
+```mysql
+MariaDB [(none)]> USE CS144;
+Database changed
+MariaDB [CS144]> 
+```
+
+### Creating a Table
+
+Once you select a database, you can execute any SQL command. For example, you can create a table using the `CREATE TABLE` command:
+
+```mysql
+     CREATE TABLE <tableName> (
+         <list of attributes and their types>
+     );
+```
+
+Note that all reserved keywords (like `CREATE` and `TABLE`) are *case-insensitive* and identifiers (like table names and attribute names) are *case-sensitive* in MySQL by default. That is, a table named `STUDENT` is different from the `student` table.
+
+Table-creation command:
+
+```mysql
+ CREATE TABLE tbl(a int, b char(20));
+```
+
+```mysql
+MariaDB [CS144]> CREATE TABLE tbl(a int, b char(20));
+Query OK, 0 rows affected (0.037 sec)
+```
+
+This command creates a table named `tbl` with two attributes. The first, named `a`, is an integer, and the second, named `b`, is a character string of length (up to) 20.
+
+When you create a table, you can declare a (set of) attribute(s) to be the primary key like:
+
+```mysql
+     CREATE TABLE <tableName> (..., a <type> PRIMARY KEY, b, ...);
+```
+
+or
+
+```mysql
+     CREATE TABLE <tableName> (<attrs and their types>, PRIMARY KEY(a,b,c));
+```
+
+### Inserting and Retrieving Tuples
+
+Having created a table, we can insert tuples into it. The simplest way to insert is with the `INSERT` command:
+
+```mysql
+     INSERT INTO <tableName>
+         VALUES( <list of values for attributes, in order> );
+```
+
+For instance, we can insert the tuple `(10, 'foobar')` into relation `tbl` by
+
+```mysql
+     INSERT INTO tbl VALUES(10, 'foobar');
+```
+
+```mysql
+MariaDB [CS144]> INSERT INTO tbl VALUES(10, 'foobar');
+Query OK, 1 row affected (0.006 sec)
+```
+
+Once tuples are inserted, we can see the tuples in a relation with the command:
+
+```mysql
+     SELECT * FROM <tableName>;
+```
+
+For instance, after the above create and insert statements, the command
+
+```mysql
+     SELECT * FROM tbl;
+```
+
+Produces the result:
+
+```mysql
+MariaDB [CS144]> SELECT * FROM tbl;
++------+--------+
+| a    | b      |
++------+--------+
+|   10 | foobar |
++------+--------+
+1 row in set (0.004 sec)
+```
+
+### Creating Index
+
+Having created a table, we can create an index on some attributes of the table. The command for creating an index is:
+
+```mysql
+     CREATE INDEX <indexName> ON <tableName>(<list of attributes>);
+```
+
+For instance, we can **create an index** on `b` attribute of table `tbl` by
+
+```mysql
+     CREATE INDEX IdxOnAttrB ON tbl(b);
+```
+
+Later, if you want to **drop an index**, you use the following command
+
+```mysql
+     DROP INDEX <indexName> ON <tableName>;
+```
+
+like
+
+```mysql
+     DROP INDEX IdxOnAttrB ON tbl;
+```
+
+Note that in MySQL, an index is automatically created on primary keys and unique attributes.
+
+### Bulk Loading Data
+
+Instead of inserting tuples one at a time, it is possible to create a file that contains all tuples that you want to load in batch. The command for bulking loading tuples from a file is the following:
+
+```mysql
+     LOAD DATA LOCAL INFILE <dataFile> INTO TABLE <tableName>;
+```
+
+### DROP Tables
+
+To remove a table from your database, execute
+
+```mysql
+     DROP TABLE <tableName>;
+```
+
+We suggest you execute
+
+```mysql
+     DROP TABLE tbl;
+```
+
+after trying out the sequence of commands in this tutorial to avoid leaving a lot of garbage tables around.
+
+### Get Inform of TABLES
+
+You can get the set of all tables within the current database by the following command:
+
+```mysql
+     SHOW TABLES;
+```
+
+```MYSQL
+MariaDB [CS144]> SHOW TABLES;   
++-----------------+
+| Tables_in_CS144 |
++-----------------+
+| tbl             |
++-----------------+
+1 row in set (0.002 sec)
+```
+
+Once you know the list of tables, it is also possible to learn more about the table by issuing the command:
+
+```mysql
+     DESCRIBE <tableName>;
+```
+
+```mysql
+MariaDB [CS144]> DESCRIBE tbl;
++-------+----------+------+-----+---------+-------+
+| Field | Type     | Null | Key | Default | Extra |
++-------+----------+------+-----+---------+-------+
+| a     | int(11)  | YES  |     | NULL    |       |
+| b     | char(20) | YES  |     | NULL    |       |
++-------+----------+------+-----+---------+-------+
+2 rows in set (0.008 sec)
+```
+
+### Executing SQL From a File
+
+Instead of typing and running SQL commands at a terminal, it is often more convenient to type the SQL command(s) into a file and cause the file to be executed.
+
+To run the commands in `foo.sql` (in the current working directory), type:
+
+```mysql
+     SOURCE foo.sql;
+```
+
+in `mysql`. Files like `foo.sql` that have SQL commands to be executed are often referred to as a (batch) script file. You can also execute the script file directly from the Unix shell by redirecting the input to `mysql` like the following:
+
+```mysql
+$ mysql CS144 < foo.sql
+```
+
+Again, pay attention to the CR/LF issue if your host OS is windows and if you create your SQL batch script file from Windows. Run `dos2unix` on the file if necessary.
+
+### Recording MySQL Session In a File
+
+`mysql` provides the command `TEE` to save the queries that you executed and their results to a file. At the `mysql>` prompt, you say:
+
+```mysql
+     TEE foo.txt;
+```
+
+and a file called `foo.txt` will appear in your current directory and will record all user input and system output, until you exit `mysql` or type:
+
+```mysql
+     NOTEE;
+```
+
+Note that if the file `foo.txt` existed previously, new output will be appended to the file.
+
+### Quitting `mysql`
+
+To leave `mysql`, type
+
+```mysql
+     QUIT;
+```
+
+---
+
+## JAVA
+
+![Files IO](https://www.tutorialspoint.com/java/images/file_io.jpg)
+
+## Assignment
+
+### PART B
+
+1. Create a table called “Actors” in the database “CS144”. The “Actors” table should have the following schema:
+
+```mysql
 Actors(name:VARCHAR(40), movie:VARCHAR(80), year:INTEGER, role:VARCHAR(40))
-Please note that database, table, and attribute names are case sensitive in MySQL, so use the above schema EXACTLY as it is, including the case.
+```
 
-Load the downloaded ./actors.csv file into the “Actors” table. Make sure that the double quotes enclosing some of the attributes in the data file are removed when they are loaded.
+Note: `varchar` [ ( *n* | **max** ) ] Variable-size string data. Use *n* to define the string size in bytes and can be a value from 1 through 8,000 or use **max** to indicate a column constraint size up to a maximum storage of 2^31-1 bytes (2 GB).
 
-Retrieve some loaded data from the “Actors” table. In particular, write a query that returns the answer to this question: “Give me the names of all the actors in the movie ‘Die Another Day’.” Feel free to experiment with other interesting queries.
+```mysql
+CREATE TABLE Actors (name VARCHAR(40), movie VARCHAR(80), year INT, role VARCHAR(40));
+```
 
-Once you are done, drop the “Actors” table from MySQL, so that it will not stay in the database for our later project.
+We created a table named “Actors”, with 4 columns
 
-Create a MySQL batch script file named actors.sql that shows every one of the above 4 steps. Again, the MySQL tutorial had a brief explanation on how to create and run MySQL batch script file. Make sure that your script is executable and has no error, meaning that we should be able to run your script by issuing the following command:
+Check,
 
-$ mysql CS144 < actors.sql
-You MUST use ./actors.csv as the location of the data file inside your script. Do NOT use an absolute path. You may assume that there is no “Actors” table in the “CS144” database when we execute your script. If needed, use the -- tag to make comments within your SQL script.
+```mysql
+MariaDB [CS144]> DESCRIBE Actors;               
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| name  | varchar(40) | YES  |     | NULL    |       |
+| movie | varchar(80) | YES  |     | NULL    |       |
+| year  | int(11)     | YES  |     | NULL    |       |
+| role  | varchar(40) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.001 sec)
+```
 
-Notes on CR/LF issue: If your host OS is Windows, you need to pay particular attention to how each line of a text file (including your script file) ends. By convention, Windows uses a pair of CR (carriage return) and LF (line feed) characters to terminate lines. On the other hand, Unix (including Linux and Mac OS X) uses only a LF character. Therefore, problems arise when you are feeding a text file generated from a Windows program to a Unix tool (such as mysql). Since the end of the line of the input file is different from what the tools expect, you may encounter unexpected behavior from these tools. If you encounter any wired error when you run your script, you may want to run the dos2unix command in the container on your Windows-generated text file. This command converts CR and LF at the end of each line in the input file to just LF. Type dos2unix --help to learn how to use this command.
+2. Load the downloaded `./actors.csv` file into the “Actors” table. Make sure that the double quotes enclosing some of the attributes in the data file are removed when they are loaded.
 
-Part D: Java Warm-Up
-If you are new to Java or if it has been a while since your last Java programming, first read A Crash Course from C++ to Java. This excellent tutorial explains the basics of Java, including how you can name, compile, and run your Java program. (It is okay to skip the parts on BlueJ in the tutorial, since we will not be using it.) If you are quite familiar with Java, but you just want to brush up on minor details quickly, you may want to read slides on Java instead. All basic tools needed for Java programming (e.g., javac and java) are available on our container.
+   ``` mysql
+   MariaDB [CS144]> LOAD DATA LOCAL INFILE './actors.csv' INTO TABLE Actors
+       FIELDS TERMINATED BY ',' 
+       OPTIONALLY ENCLOSED BY '"'
+       LINES TERMINATED BY '\n'
+       IGNORE 1 ROWS;
+   ```
 
-Now implement a Java program that computes the SHA256 hash over the content of an input file. SHA256 is a cryptographic one-way hash function that computes a 256 bit value from a sequence of bytes. Your Java program should satisfy the following requirements:
+   Note：`LOCAL` and  `FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY ‘“‘;` is need.
 
-Your program should be implemented as a single Java class ComputeSHA. Your program should take the input filename as the first command line parameter. For example, a user should be able to execute your program like
+   > - The LOCAL keyword affects where the file is expected to be found. The file is read by the client program on the client host and sent to the server. If LOCAL is not specified, the file must be located on the server host and is read directly by the server.” [Reference manual](https://dev.mysql.com/doc/refman/5.7/en/load-data.html)
+   > - Since the comma is the delimiter, we use the FIELDS TERMINATED BY ‘,’
+   > - Each line of the CSV file is terminated by a newline character, thus we use LINES TERMINATED BY ‘\n’
+   > - We already have the header in the MySQL table so we use IGNORE 1 ROWS
 
-$ java ComputeSHA filename.txt
-where filename.txt is the name of the input file.
+3. Retrieve some loaded data from the “Actors” table. In particular, write a query that returns the answer to this question: “Give me the names of all the actors in the movie ‘Die Another Day’.” Feel free to experiment with other interesting queries.
 
-Given the input file, your program should compute the SHA256 hash value over the entire content of the file and print the computed hash value on screen as follows:
+```mysql
+SELECT name FROM Actors WHERE movie LIKE 'Di%';
+```
 
-addb41d9c1ea67ec0d6cc29dbb2f0248a3f077b7aedf6e5d3405fb462e4b955b
-Your program should print the above hash value if you provide the sample-input.txt file as its input. Please ensure that the output is formatted exactly as above including its case. Print a newline at the end of the hash value. To test the accuracy of your implementation on other input files, you may compare your output against that of the sha1sum command. Please make sure that your program works for both text file and binary file of any size.
+To show name which contains movie beginning with Di:arrow_up:
 
-In implementing your Java program, you may find the Java class java.security.MessageDigest useful, which provides a number of cryptographic hash functions including SHA256 and MD5. If you decide to use MessageDigest class, make sure you import java.security.* packages in your source code. If what we just said sounds Greek to you, again, read A Crash Course from C++ to Java. To learn how you may use MessageDigest class in Java, try a query like “Java MessageDigest example” on Google and look at the top few results. They are likely to contain good example codes that show you how you can use the class. If you want to learn about basic file I/O in Java, see Java File I/O tutorial.
+https://dev.mysql.com/doc/mysql-tutorial-excerpt/5.7/en/pattern-matching.html
 
-Notes on editors for Java development: You can choose whatever editors you like for Java development. Options include:
+OR 
 
-Unix text editors in the container: You may use any text editor in the container (vi and nano are available) to edit text files directly.
+```mysql
+SELECT name FROM Actors WHERE movie = 'Die Another Day';
+```
 
-Your favorite text editor on the host: You may use your favorite text editor from your host OS (e.g., Sublime Text or Visual Studio Code) and transfer the edited file to the container through the shared directory. Remember that the directory that you specified as the shared directory from the host (e.g., /Users/cho/cs144 from Mac) is available at $HOME/shared in the container. Again, be careful with the CR/LF issue if you use this option.
+4. Once you are done, drop the “Actors” table from MySQL, so that it will not stay in the database for our later project.
 
-Your Final Submission
-Your project must be submitted electronically before the deadline through our CCLE Course Website. Navigate to Sections on left of the page, and click on the Project 1 submission section. If you submit multiple times, we will grade only the latest submission.
 
-What to Submit
-The zip file that you submit must be named project1.zip, created using a zip compression utility (like using “zip -r project1.zip *” command in the container). You should submit this single file project1.zip that has the following packaging structure.
 
-project1.zip
- |
- +- actors.sql
- |
- +- ComputeSHA.java
- |
- +- README.txt (Optionally)
-Each file or directory is as following:
+The .sql file:
 
-actors.sql: A copy of your MySQL batch script file from Part C of this project.
-You must use ./actors.csv as the location of the data file inside your script.
-The “Actors” table must the provided schema exactly as it is including its case.
-ComputeSHA.java: The source code of you Java program for SHA256 hash computation from Part D.
-(Optional) README.txt: A (plain text) README file containing anything else you find worth mentioning.
-Please ensure that your submission is packaged correctly with all required files. Make sure that each file is correctly named (including its case) and project1.zip contains all files directly, not within a subdirectory. In other words, unzipping project1.zip should produce the files in the same directory as project1.zip. You may get as small as zero points for your work if the grader encounters an error due to incorrect packaging, missing files, and failure to follow our exact spec.
+```mysql
+CREATE TABLE Actors (name varchar(40), movie varchar(80), year int, role varchar(40));
 
-Testing of Your Submission
-Grading is a difficult and time-consuming process, and file naming and packaging convention is very important to test your submission without any error. In order to help you ensure the correct packaging of your submission, we have made a “grading script” p1_test available. In essence, the grading script unzips your submission to a temporary directory and executes your files to test whether they are likely to run OK on the grader’s machine. Download the grading script and execute it in the container like:
+LOAD DATA LOCAL INFILE './actors.csv' INTO TABLE Actors
+    FIELDS TERMINATED BY ','
+    OPTIONALLY ENCLOSED BY '"'
+    LINES TERMINATED BY '\n'
+    IGNORE 1 LINES;
 
-$ ./p1_test project1.zip
-(if your project1.zip file is not located in the current directory, you need to add the path to the zip file before project1.zip. You may need to use chmod +x p1_test if there is a permission error.)
+SELECT "The names of all the actors in the movie 'Die Another Day':";
 
-You MUST test your submission using the script before your final submission to minimize the chance of an unexpected error during grading. Again, significant points may be deducted if the grader encounters an error during grading. When everything runs properly, you will see an output similar to the following from the grading script:
+SELECT name FROM Actors WHERE movie LIKE 'Di%';
 
-Running your actors.sql script...
-name
-Brosnan, Pierce
-Cleese, John
-Echevarria, Emilio
-Ho, Thomas
-Lee, Will Yun
-Madsen, Michael
-Makoare, Lawrence
-Salmon, Colin
-Stephens, Toby
-Yune, Rick
-Finished running actors.sql
+DROP TABLE Actors;
+```
 
-Compiling ComputeSHA.java...
-SUCCESS!
-Grading Criteria
-System setup (30%) - gets full credit if the submission was successful
-No error in actors.sql (20%) - gets full credit if the script runs without any error
-Correctness of actors.sql (10%) - gets full credit if the query returns the correct results
-ComputeSHA compilation (10%) - gets full credit if the submission compiles without error
-ComputeSHA correctness (30%) - based on several test cases
+```mysql
+$ mysql -sN CS144 < actors.sql;
+```
+
+### Part C
+
+#### SHA-1
+
+SHA-1 is a <u>cryptographic one-way hash</u> （加密单向散列） function that computes a 160 bit value (or 40-digit hex value) from a sequence of bytes.
+
+To calculate cryptographic hashing value in Java, **MessageDigest Class** is used, under the package **java.security**.
+
+
+
+```
+zip -q Project1.zip filename1 filename2 filename3
+```
+
