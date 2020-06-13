@@ -1,7 +1,8 @@
+## How to run
 Hi!
 Glad to see you.
 After unzip the project, you can build it by:
-./deploy.sh
+`./deploy.sh`
 
 After we deploy the files, we can access it through url:
 for example:
