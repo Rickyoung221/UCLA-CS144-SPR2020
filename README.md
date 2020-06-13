@@ -15,4 +15,4 @@ Blog Website project.
 
 @copyright by Weikeng, Yueying.
 
-Please do not copy the code, they should be just for view. ​:slightly_smiling_face:​
+Please do not copy any code, they should be just for view. ​:slightly_smiling_face:​
