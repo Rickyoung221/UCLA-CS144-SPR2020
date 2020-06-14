@@ -3,9 +3,9 @@ Project assignments for UCLA CS144 Web-Applications course.
 
 Blog Website project. 
 
-For Letter Grade: Projects 50%, Final 50%. 
-
 For P/NP: Project 100%
+
+For Letter Grade: Projects 50%, Final 50%. 
 
 | Project   | Grade   |
 | --------- | ------- |
