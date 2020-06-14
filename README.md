@@ -1,7 +1,11 @@
 # CS144 Web Application
 Project assignments for UCLA CS144 Web-Applications course.
 
-Blog Website project. Project 1 and Final Exam are individual projects. Project 2-5 are team projects.  
+Blog Website project. 
+Project 1 and Final Exam are individual projects. 
+Project 2-5 are team projects.  
+
+Projects 50%, Final 50%. 
 
 | Project   | Grade   |
 | --------- | ------- |
@@ -10,7 +14,7 @@ Blog Website project. Project 1 and Final Exam are individual projects. Project 
 | Project 3 | 95/100  |
 | Project 4 | 110/100 |
 | Project 5 | 100/100 |
-| Final     |         |
+| Final     |    ?/100     |
 
 @copyright owned by the contributors. 
 
