@@ -20,7 +20,7 @@ For P/NP: Project 100%
 
 @copyright owned by the contributors. 
 
-Please do not copy any code, they should be just for view. ​:slightly_smiling_face:​
+:bangbang: Please do not copy any codes, they should be just for view. ​:slightly_smiling_face:​
 
 ---
 ## Course Description
