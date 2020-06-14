@@ -1,7 +1,7 @@
 # CS144 Web Application
 Project assignments for UCLA CS144 Web-Applications course.
 
-Blog Website project. 
+Blog Website project. Project 2-5 are team projects.  
 
 | Project   | Grade   |
 | --------- | ------- |
@@ -12,6 +12,7 @@ Blog Website project.
 | Project 5 | 100/100 |
 | Final     |         |
 
+@copyright owned by the contributors. 
 
 Please do not copy any code, they should be just for view. ​:slightly_smiling_face:​
 
