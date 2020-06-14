@@ -5,7 +5,9 @@ Blog Website project.
 Project 1 and Final Exam are individual projects. 
 Project 2-5 are team projects.  
 
-Projects 50%, Final 50%. 
+For Letter Grade: Projects 50%, Final 50%. 
+
+For P/NP: Project 100%
 
 | Project   | Grade   |
 | --------- | ------- |
