@@ -1,7 +1,7 @@
-# CS144 Web Application
-Project assignments for UCLA CS144 Web-Applications course.
+# CS144 Web Application Spring2020
+Project assignments for UCLA CS144 Web-Applications course. Instructor: Professor Cho. 
 
-Blog Website project. 
+
 
 | Project   | Grade   |
 | --------- | ------- |
