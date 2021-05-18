@@ -18,7 +18,9 @@ For Letter Grade: Projects 50%, Final 50%.
 
 @copyright owned by the contributors. 
 
-:bangbang: Please do not copy any codes, they should be just for view. ​:slightly_smiling_face:​
+:bangbang: Please do not copy any codes directrly, they should be just for view. ​:slightly_smiling_face:​
+
+If it does help you, please star and fork this repository. Thank you for your support. 
 
 ---
 ## Course Description
