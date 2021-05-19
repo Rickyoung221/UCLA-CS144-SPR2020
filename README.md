@@ -16,7 +16,7 @@ Project assignments for UCLA CS144 Web-Applications course. Instructor: Professo
 
 :bangbang: Please do not copy any codes directrly, they should be just for view. ​:slightly_smiling_face:​
 
-If it does help you, please star and fork this repository. Thank you for your support. ​:slightly_smiling_face:​
+​:smile:​ If it does help you, please star and fork this repository. Thank you for your support. 
 
 ---
 ## Course Description
