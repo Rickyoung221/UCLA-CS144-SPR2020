@@ -18,7 +18,7 @@ run `npm start` and go to http://localhost:3000/
 Create a container based on the “junghoo/cs144-mean” image:
 
 ```dockerfile
-$ docker run -it -p3000:3000 -p4200:4200 -v /Users/rickyoung/documents/cs144:/home/cs144/shared --name mean junghoo/cs144-mean
+$ docker run -it -p3000:3000 -p4200:4200 -v $PROJECT-PATH --name mean junghoo/cs144-mean
 ```
 
 run the container:
